@@ -19,7 +19,7 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   const [winner, setWinner] = useState(null);
   const [contract, setContract] = useState(null);
-  const [fundTxn, setFundTxn] = useState(null);
+  const [fundTxns, setFundTxns] = useState(null);
   const [fundTxHash, setFundTxHash] = useState(null);
   const [fundConfirmTxHash, setFundConfirmTxHash] = useState(null);
   const [verifyTxHash, setVerifyTxHash] = useState(null);
@@ -49,7 +49,7 @@ export default function App() {
     setMessages([]);
     setWinner(null);
     setContract(null);
-    setFundTxn(null);
+    setFundTxns(null);
     setFundTxHash(null);
     setFundConfirmTxHash(null);
     setVerifyTxHash(null);
@@ -88,7 +88,7 @@ export default function App() {
       setMessages(data.messages);
       setWinner(data.winner);
       setContract(data.contract);
-      setFundTxn(data.fundTxn);
+      setFundTxns(data.fundTxns);
       setWarning(data.warning || null);
     } catch (err) {
       setError(err.message);
@@ -106,7 +106,7 @@ export default function App() {
     setError(null);
 
     try {
-      if (contract?.demoMode || !fundTxn) {
+      if (contract?.demoMode || !fundTxns) {
         // Demo mode — no real transaction
         setWarning("Demo mode: simulated transaction.");
         setFundTxHash(`SIM_FUND_${Date.now()}`);
@@ -115,7 +115,7 @@ export default function App() {
       }
 
       // Buyer signs simple payment via Pera — shows in Pera wallet history
-      const payTxId = await signAndSubmitPayment(fundTxn.txn, wallet);
+      const payTxId = await signAndSubmitPayment(fundTxns, wallet);
       setFundTxHash(payTxId);
       console.log("[Fund] Buyer payment confirmed:", payTxId);
 
